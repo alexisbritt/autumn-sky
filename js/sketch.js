@@ -27,8 +27,18 @@ function draw() {
     stars[i].show(); // display all the circles
     stars[i].move();
   }
+  system.addParticle();
+  system.run();
 }
- 
+
+// A simple Particle class
+var Star = function(position) {
+  this.acceleration = createVector(0, 0.05);
+  this.velocity = createVector(random(-1, 1), random(-1, 0));
+  this.position = position.get();
+  this.lifespan = 255.0;
+};
+
 function Star( type ) {
     this.xPos = random(windowWidth);
     this.yPos = random(windowHeight);
