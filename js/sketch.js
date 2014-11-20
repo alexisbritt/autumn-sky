@@ -1,5 +1,6 @@
 var stars = [],
-  numStars = 550;
+  numStars = 225;
+
 
 
 function setup() {
@@ -12,8 +13,8 @@ function setup() {
 
   for( var i=0; i<stars.length; i++ ){
         stars[i] = new Star( random( width ), random( height ), 0 );
-        //stars[i].vel.set( 0, 0, 0);
-    }
+      //stars[i].vel.set( 0, 0, 0);
+    }  
 }
 
 function update(){
@@ -22,28 +23,22 @@ function update(){
 
 
 function draw() {
+  // var mouse = createVector( mouseX, mouseY );
   background(0);
   for (var i=0; i<numStars; i++) {
     stars[i].show(); // display all the circles
     stars[i].move();
   }
-  system.addParticle();
-  system.run();
+  
 }
 
-// A simple Particle class
-var Star = function(position) {
-  this.acceleration = createVector(0, 0.05);
-  this.velocity = createVector(random(-1, 1), random(-1, 0));
-  this.position = position.get();
-  this.lifespan = 255.0;
-};
+
 
 function Star( type ) {
     this.xPos = random(windowWidth);
     this.yPos = random(windowHeight);
     this.xSpeed = random(0, .01);
-    this.ySpeed = 0;
+    this.ySpeed = random(0, .01);
     this.color = color( random(245,255), random(245, 255), random(245, 255), random(150, 180));
     this.size = random(0.05, 4);
     this.type = type;
@@ -56,15 +51,36 @@ Star.prototype.show = function(){
 }
 
 Star.prototype.move = function(){
-  this.xPos += this.xSpeed;
-  this.yPos += this.ySpeed;
 
-  if ((this.xPos > width) || (this.xPos <0)){
-    this.xSpeed *= -0.5;
+  var horizon = (mouseX - width/2) / 2000 ;
+  var vertical = (mouseY - height/2) / 2000;
+
+  this.xPos += this.xSpeed + horizon;
+  this.yPos += this.ySpeed + vertical;
+
+  if ((this.xPos > width)){
+    this.xPos = 0;
   }
-  if ((this.yPos > height) || (this.yPos <0)){
-    this.xSpeed *= -0.5;
+
+  if ((this.xPos < 0)){
+    this.xPos = width;
   }
+
+  if ((this.yPos > height)){
+    this.yPos = 0;
+  }
+
+  if ((this.yPos < 0)){
+    this.yPos = height;
+  }
+
+
+  // if ((this.xPos > width) || (this.xPos <0)){
+  //   this.xSpeed *= -0.5;
+  // }
+  // if ((this.yPos > height) || (this.yPos <0)){
+  //   this.xSpeed *= -0.5;
+  // }
 }
 
 Star.prototype.randomize = function(){
@@ -91,22 +107,3 @@ Star.prototype.update = function() {
   this.acceleration.mult(0);
 };
 
-// function mouseAttract(){
-//     var magnetism;          // magnetism factor - +tve values attract
-//         if (( this.attract == true )){     // check if this circle should be attracted or repulsed
-//           this.magnetism = 5.0f;      // make particles be attracted to the mouse
-//         }
-//         else {
-//           this.magnetism = -2.0f;    // make particles be repulsed by the mouse
-//         }
-
-//         var mouse = new PVector( mouseX, mouseY ); // create mouse pos as a vector
-//         mouse.sub( xPos );                              // subtract mouse pos from particle pos
-//         // mouse now contains the difference vector between this particle
-//         // and the mouse
-//         var magnitude = mouse.mag();  // find out how far the particle is from the mouse
-//         acc.set( mouse );               // store this as the acceleration vector
-
-//         acc.mult( magnetism / (magnitude * magnitude) );  // scale the attraction/repuse effect using
-//                                                           // an inverse square
-//     }  // end of mouseAttract()
