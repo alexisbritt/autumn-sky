@@ -52,8 +52,8 @@ Star.prototype.show = function(){
 
 Star.prototype.move = function(){
 
-  var horizon = (mouseX - width/2) / 2000 ;
-  var vertical = (mouseY - height/2) / 2000;
+  var horizon = (mouseX - width/2) / 5000 ;
+  var vertical = (mouseY - height/2) / 5000;
 
   this.xPos += this.xSpeed + horizon;
   this.yPos += this.ySpeed + vertical;
